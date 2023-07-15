@@ -1,0 +1,7 @@
+# Rusty-DNS
+- This will consist of 5 parts. 
+- With this project I will be writing blogs on each phase of this project.  
+- The blogs will be available at my blog website: https://saditya9211.hashnode.dev
+
+
+The Five parts of this project are: -
