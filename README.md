@@ -5,3 +5,4 @@
 
 
 The Five parts of this project are: -
+1. The DNS Protocol - Learning about DNS protocol and various techniques used to make it efficient. 
