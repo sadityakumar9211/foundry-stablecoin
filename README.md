@@ -1,5 +1,6 @@
 # Rusty-DNS
 > This project is under development
+> 
 > Most recent functionality: DNS query/response packet header parsing functionality added.
 - This will consist of 5 parts.
 - With this project, I will be writing blogs on each phase of this project.
