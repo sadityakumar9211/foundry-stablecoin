@@ -31,6 +31,11 @@ nc -u 8.8.8.8 53 < packets/query_packet.txt > packets/response_packet.txt
 ```
 What we are doing above is, we're sending the contents of `packets/query_packet.txt` to port `53`(default port for DNS protocol) of `8.8.8.8` server and we are redirecting the response received to `packet/response_packet.txt` file on disk.
 
+
+  
+  
+
+
 6. Now run
 ```zsh
 $ cargo build
@@ -38,6 +43,9 @@ $ cargo run
 ```
 
 You will get a response similar to this:
+<details>
+  <summary>Check out the Output</summary>
+
 ```text
 The contents of packet header is:-
 DnsHeader {
@@ -95,6 +103,7 @@ The contents of Authority section is:-
 The contents of Additional section is:-
 
 ```
+</details>
 
 When you run `cargo run`, the code basically parses each field of the response DNS packet (`packets/response_packet.txt`) and prints the contents of each of those fields. 
 
