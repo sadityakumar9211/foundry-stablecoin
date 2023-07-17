@@ -421,6 +421,35 @@ impl DnsPacket {
 }
 
 fn main() -> Result<()> {
-    println!("This is the main function ");
+    let mut f = File::open("packets/response_packet.txt")?;
+    let mut buffer = BytePacketBuffer::new();
+    f.read(&mut buffer.buf)?;
+
+    let packet = DnsPacket::from_buffer(&mut buffer)?;
+
+    println!("\n\nThe contents of packet header is:-");
+    println!("{:#?}", packet.header);
+
+    println!("\n\nThe contents of Question section is:-");
+    for q in packet.questions {
+        println!("{:#?}", q);
+    }
+
+    println!("\n\nThe contents of Answer section is:-");
+    for rec in packet.answers {
+        println!("{:#?}", rec);
+    }
+
+    println!("\n\nThe contents of Authority section is:-");
+    for rec in packet.authorities {
+        println!("{:#?}", rec);
+    }
+
+    println!("\n\nThe contents of Additional section is:-");
+    for rec in packet.resources {
+        println!("{:#?}", rec);
+    }
+    print!("\n");
+
     Ok(())
 }
