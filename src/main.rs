@@ -307,7 +307,7 @@ impl DnsQuestion {
 
     pub fn read(&mut self, buffer: &mut BytePacketBuffer) -> Result<()> {
         buffer.read_qname(&mut self.name)?;
-        self.qtype = QueryType.from_num(buffer.read_u16()?); // qtype - Question Type
+        self.qtype = QueryType::from_num(buffer.read_u16()?); // qtype - Question Type
         let _ = buffer.read_u16()?; // class
         Ok(())
     }
@@ -383,7 +383,7 @@ impl DnsPacket {
         DnsPacket {
             header: DnsHeader::new(),
             questions: Vec::new(),
-            answers: DnsRecord::Vec::new(),
+            answers: Vec::new(),
             authorities: Vec::new(),
             resources: Vec::new(),
         }
