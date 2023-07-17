@@ -22,13 +22,14 @@ dig +retry=0 -p 1053 @127.0.0.1 +noedns reddit.com
 ```
 After few moments, the second terminal will show timeout, this is expected as the initiated query did not receive any response. However, our intiated query packet is captured by `netcat` and stored in `packet/query_packet.txt` file on disk.
 
-Now we should close `netcat` process listening at port `1053` in the first terminal and try sending the captured DNS query to one of the public DNS servers. For this we can use the Google's public DNS server (`8.8.8.8`). So, after killing the `netcat` process which was listening at port `1053`, we send the DNS query packet to `8.8.8.8` by:
+Now we should close `netcat` process listening at port `1053` in the first terminal and try sending the captured DNS query to one of the public DNS servers.
+
+5. Send this captured Query Packet to any public DNS server (Google - `8.8.8.8`) and capture the DNS response into a file `packets/response_packet.txt`.
+
 ```zsh
 nc -u 8.8.8.8 53 < packets/query_packet.txt > packets/response_packet.txt
 ```
 What we are doing above is, we're sending the contents of `packets/query_packet.txt` to port `53`(default port for DNS protocol) of `8.8.8.8` server and we are redirecting the response received to `packet/response_packet.txt` file on disk.
-
-5. Send this captured Query Packet to any public DNS server (Google - `8.8.8.8`) and capture the DNS response into a file `packets/response_packet.txt`
 
 6. Now run
 ```zsh
