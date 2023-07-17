@@ -110,7 +110,7 @@ When you run `cargo run`, the code basically parses each field of the response D
 ## Developer Notes
 - This will consist of 5 phases. Currently Developing under Phase 2.
 - With this project, I will be writing blogs on each phase of this project.
-- The blogs will be available at my blog website: https://saditya9211.hashnode.dev/rusty-dns
+- The blogs will be available at my blog website: [https://saditya9211.hashnode.dev/series/rusty-dns](https://saditya9211.hashnode.dev/series/rusty-dns)
 
 
 The Five phases of this project are:-
