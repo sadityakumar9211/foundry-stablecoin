@@ -29,7 +29,8 @@ Now we should close `netcat` process listening at port `1053` in the first termi
 ```zsh
 nc -u 8.8.8.8 53 < packets/query_packet.txt > packets/response_packet.txt
 ```
-What we are doing above is, we're sending the contents of `packets/query_packet.txt` to port `53`(default port for DNS protocol) of `8.8.8.8` server and we are redirecting the response received to `packet/response_packet.txt` file on disk.
+ What we are doing above is, we're sending the contents of `packets/query_packet.txt` to port `53`(default port for DNS protocol) of `8.8.8.8` server 
+and we are redirecting the response received to `packet/response_packet.txt` file on disk.
 
 
   
