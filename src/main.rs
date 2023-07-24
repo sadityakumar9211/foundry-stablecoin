@@ -171,6 +171,40 @@ impl BytePacketBuffer {
         }
         Ok(())
     }
+
+    fn write(& mut self, val: u8) -> Result<()> {
+        if self.pos >= 512 {
+            return Err("End of buffer".into());
+        }
+        self.buf[self.pos] = val;
+        self.pos += 1;
+        Ok(())
+    }
+
+    fn write_u8(&mut self, val: u8) -> Result<()> {
+        self.write(val)?;
+        Ok(())
+    }
+
+    fn write_u16(&mut self, val: u16) -> Result<()> {
+        // writing the ms 8 bits
+        self.write((val >> 8) as u8);
+        // writing the ls 8 bits
+        self.write((val & 0xFF) as u8)?;
+        Ok(())
+    }
+
+    fn write_u32(&mut self, val: u32) -> Result<()> {
+        self.write(((val >> 24) & 0xFF) as u8)?;
+        self.write(((val >> 16) & 0xFF) as u8)?;
+        self.write(((val >> 8) & 0xFF) as u8)?;
+        self.write(((val >> 0) & 0xFF) as u8)?;
+
+        Ok(())
+    }
+
+    
+
 }
 
 #[derive(Copy, Clone, Debug, PartialEq, Eq)]
