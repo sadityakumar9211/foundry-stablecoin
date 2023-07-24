@@ -3,7 +3,7 @@
 use crate::prelude::*;
 
 use std::fs::File;
-use std::io::Read;
+use std::io::{Read, BufRead};
 use std::net::Ipv4Addr;
 use std::{result, vec};
 
@@ -386,6 +386,15 @@ impl DnsQuestion {
         buffer.read_qname(&mut self.name)?;
         self.qtype = QueryType::from_num(buffer.read_u16()?); // qtype - Question Type
         let _ = buffer.read_u16()?; // class
+        Ok(())
+    }
+
+    pub fn write(&self, buffer: &mut BytePacketBuffer) -> Result<()> {
+        buffer.write_qname(&self.name)?;
+        let typenum = self.qtype.to_num();
+        buffer.write_u16(typenum)?;
+        buffer.write_u16(1)?;
+
         Ok(())
     }
 }
