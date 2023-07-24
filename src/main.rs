@@ -205,7 +205,7 @@ impl BytePacketBuffer {
 
     fn write_qname(&mut self, qname: &str) -> Result<()> {
         for label in qname.split('.') {
-            let len = label.len()
+            let len = label.len();
             if len > 0x34 {
                 return Err("Single label exceeds 63 characters of length".into());
             }
@@ -468,7 +468,7 @@ impl DnsRecord {
                 buffer.write_u32(ttl)?;
                 buffer.write_u16(4)?;
 
-                let octets = addr.octects();
+                let octets = addr.octets();
                 buffer.write_u8(octets[0])?;
                 buffer.write_u8(octets[1])?;
                 buffer.write_u8(octets[2])?;
@@ -533,6 +533,8 @@ impl DnsPacket {
 
         Ok(result)
     }
+
+
 }
 
 fn main() -> Result<()> {
