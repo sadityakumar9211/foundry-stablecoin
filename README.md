@@ -117,7 +117,7 @@ When you run `cargo run`, the code basically parses each field of the response D
 The Five phases of this project are:-
 1. **The DNS Protocol** - Write a DNS packet parser and learn about the intricacies of domain name encoding using labels and about other fields of a DNS packet. ✅
 
-2. **Building a stub resolver**
+2. **Building a stub resolver**: Currently adding packet write functionality by extending the current implementations.
 3. **Adding various Record Types**
 4. **Final DNS server Implementation**
 5. **Implementing Recursive Resolvers**
