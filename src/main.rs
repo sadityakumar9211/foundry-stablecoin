@@ -1,5 +1,6 @@
 use std::net::Ipv4Addr;
 use std::net::UdpSocket;
+use std::io;
 
 type Error = Box<dyn std::error::Error>;
 type Result<T> = std::result::Result<T, Error>;
@@ -513,7 +514,20 @@ impl DnsPacket {
 
 fn main() -> Result<()> {
     // Perform an A query for google.com
-    let qname = "reddit.com";
+    println!("Enter a domain name(example.com): ");
+
+    let mut qname = String::new();
+    io::stdin().read_line(&mut qname).expect("Failed to read line");
+
+    let qname = qname.trim();
+    
+    // Check if input is empty, assign "example.com" if it is
+    let qname = if qname.is_empty() {
+        "example.com"
+    } else {
+        qname
+    };
+
 
     let qtype = QueryType::A;
 
@@ -534,42 +548,39 @@ fn main() -> Result<()> {
         .questions
         .push(DnsQuestion::new(qname.to_string(), qtype));
 
-
     // Use our new write method to write the packet to a buffer...
     let mut req_buffer = BytePacketBuffer::new();
     packet.write(&mut req_buffer)?;
-
+    println!("\n\n########## DNS Query Packet ##########");
     println!("{:#?}\n", packet);
-    println!("Bufferred packet sent to the google's dns server...\n\n\n");
 
     // ...and send it off to the server using our socket:
     socket.send_to(&req_buffer.buf[0..req_buffer.pos], server)?;
-
 
     // To prepare for receiving the response, we'll create a new `BytePacketBuffer`,
     // and ask the socket to write the response directly into our buffer.
     let mut res_buffer = BytePacketBuffer::new();
     socket.recv_from(&mut res_buffer.buf)?;
 
-    println!("Bufferred packet Received from the google's dns server...");
+    println!("\n\n\n########## DNS Response Packet ##########");
 
     // As per the previous section, `DnsPacket::from_buffer()` is then used to
     // actually parse the packet after which we can print the response.
     let res_packet = DnsPacket::from_buffer(&mut res_buffer)?;
-    println!("{:#?}", res_packet.header);
+    println!("{:#?}", res_packet);
 
-    for q in res_packet.questions {
-        println!("{:#?}", q);
-    }
-    for rec in res_packet.answers {
-        println!("{:#?}", rec);
-    }
-    for rec in res_packet.authorities {
-        println!("{:#?}", rec);
-    }
-    for rec in res_packet.resources {
-        println!("{:#?}", rec);
-    }
+    // for q in res_packet.questions {
+    //     println!("{:#?}", q);
+    // }
+    // for rec in res_packet.answers {
+    //     println!("{:#?}", rec);
+    // }
+    // for rec in res_packet.authorities {
+    //     println!("{:#?}", rec);
+    // }
+    // for rec in res_packet.resources {
+    //     println!("{:#?}", rec);
+    // }
 
     Ok(())
 }
