@@ -3,7 +3,7 @@
 use crate::prelude::*;
 
 use std::fs::File;
-use std::io::{Read, BufRead};
+use std::io::{BufRead, Read};
 use std::net::Ipv4Addr;
 use std::{result, vec};
 
@@ -172,7 +172,7 @@ impl BytePacketBuffer {
         Ok(())
     }
 
-    fn write(& mut self, val: u8) -> Result<()> {
+    fn write(&mut self, val: u8) -> Result<()> {
         if self.pos >= 512 {
             return Err("End of buffer".into());
         }
@@ -220,7 +220,6 @@ impl BytePacketBuffer {
 
         Ok(())
     }
-
 }
 
 #[derive(Copy, Clone, Debug, PartialEq, Eq)]
@@ -317,23 +316,23 @@ impl DnsHeader {
         Ok(())
     }
 
-    pub fn write (&self, buffer: &mut BytePacketBuffer) -> Result<()> {
+    pub fn write(&self, buffer: &mut BytePacketBuffer) -> Result<()> {
         buffer.write_u16(self.id)?;
 
         buffer.write_u8(
             (self.recursion_desired as u8)
                 | ((self.truncated_message as u8) << 1)
                 | ((self.authoritative_answer as u8) << 2)
-                | ((self.opcode << 3))
-                | ((self.response as u8) << 7) as u8, 
+                | (self.opcode << 3)
+                | ((self.response as u8) << 7) as u8,
         )?;
 
         buffer.write_u8(
-            (self.rescode as u8) 
+            (self.rescode as u8)
                 | ((self.checking_disabled as u8) << 4)
                 | ((self.authed_data as u8) << 5)
                 | ((self.z as u8) << 6)
-                | ((self.recursion_available as u8) << 7)
+                | ((self.recursion_available as u8) << 7),
         )?;
 
         buffer.write_u16(self.questions)?;
@@ -348,21 +347,32 @@ impl DnsHeader {
 #[derive(PartialEq, Eq, Debug, Clone, Hash, Copy)]
 pub enum QueryType {
     UNKNOWN(u16),
-    A, // 1
+    A,     // 1
+    NS,    // 2
+    CNAME, // 5
+    MX,    // 15
+    AAAA,  // 28
 }
 
 impl QueryType {
-    // Returns the numerical equivalent of a specific Query Type
     pub fn to_num(&self) -> u16 {
         match *self {
             QueryType::UNKNOWN(x) => x,
             QueryType::A => 1,
+            QueryType::NS => 2,
+            QueryType::CNAME => 5,
+            QueryType::MX => 15,
+            QueryType::AAAA => 28,
         }
     }
 
     pub fn from_num(num: u16) -> QueryType {
         match num {
             1 => QueryType::A,
+            2 => QueryType::NS,
+            5 => QueryType::CNAME,
+            15 => QueryType::MX,
+            28 => QueryType::AAAA,
             _ => QueryType::UNKNOWN(num),
         }
     }
@@ -413,6 +423,27 @@ pub enum DnsRecord {
         addr: Ipv4Addr,
         ttl: u32,
     }, // 1
+    NS {
+        domain: String,
+        host: String,
+        ttl: u32,
+    }, // 2
+    CNAME {
+        domain: String,
+        host: String,
+        ttl: u32,
+    }, // 5
+    MX {
+        domain: String,
+        priority: u16,
+        host: String,
+        ttl: u32,
+    }, // 15
+    AAAA {
+        domain: String,
+        addr: Ipv6Addr,
+        ttl: u32,
+    }, // 28
 }
 
 impl DnsRecord {
@@ -458,8 +489,8 @@ impl DnsRecord {
         let start_pos = buffer.pos();
         match *self {
             DnsRecord::A {
-                ref domain, 
-                ref addr, 
+                ref domain,
+                ref addr,
                 ttl,
             } => {
                 buffer.write_qname(domain)?;
@@ -475,14 +506,12 @@ impl DnsRecord {
                 buffer.write_u8(octets[3])?;
             }
             DnsRecord::UNKNOWN { .. } => {
-                println!("Skipping record: {:?}", self); 
+                println!("Skipping record: {:?}", self);
             }
         }
         Ok(buffer.pos() - start_pos)
     }
 }
-
-
 
 #[derive(Clone, Debug)]
 pub struct DnsPacket {
@@ -533,8 +562,6 @@ impl DnsPacket {
 
         Ok(result)
     }
-
-
 }
 
 fn main() -> Result<()> {
