@@ -1,7 +1,7 @@
 # Rusty-DNS
 > This project is under development.
 
-> Most recent functionality -> Created a stub resolver which takes domain input from user and queries the Google's Public DNS server (8.8.8.8) and shows the query and response packets to the console. Has the capability to parse and show various record types.
+> Most recent functionality -> Created a recursive resolver which queries public DNS infrastructure recursively (from root-nameserver to authoratative-nameserver for that domain) and returns the result. 
 
 ## Getting Started
 1. Clone this repository
