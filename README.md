@@ -9,9 +9,9 @@
 git clone https://github.com/sadityakumar9211/rusty-dns
 ```
 
-2. Switch to the `more-record-types` branch
+2. Switch to the `recursive-resolver` branch
 ```zsh
-git checkout our-own-server
+git checkout recursive-resolver
 ```
 
 3. Install dependencies
@@ -23,7 +23,7 @@ cargo update
 ```bash
 cargo build && cargo run
 ```
-This will spin up a DNS server on 127.0.0.1:2053 which can be queried using `dig` tool to get the ip address response.
+This will spin up a DNS server (recursive resolver) on 127.0.0.1:2053 which can be queried using `dig` tool to get the ip address response.
 
 5. Split the terminal and query:
 ```bash
@@ -38,42 +38,161 @@ You will see responses on both the terminals:
   <summary>Check out the Output</summary>
 
 ```text
-DnsPacket {
-    header: DnsHeader {
-        id: 7666,
-        recursion_desired: true,
-        truncated_message: false,
-        authoritative_answer: false,
-        opcode: 0,
-        response: false,
-        rescode: NOERROR,
-        checking_disabled: false,
-        authed_data: true,
-        z: false,
-        recursion_available: false,
-        questions: 1,
-        answers: 0,
-        authoritative_entries: 0,
-        resource_entries: 1,
+Received query: DnsQuestion { name: "www.reddit.com", qtype: A }
+attempting lookup of A www.reddit.com with ns 198.41.0.4
+Ok(
+    DnsPacket {
+        header: DnsHeader {
+            id: 6666,
+            recursion_desired: true,
+            truncated_message: true,
+            authoritative_answer: false,
+            opcode: 0,
+            response: true,
+            rescode: NOERROR,
+            checking_disabled: false,
+            authed_data: false,
+            z: false,
+            recursion_available: false,
+            questions: 1,
+            answers: 0,
+            authoritative_entries: 13,
+            resource_entries: 11,
+        },
+        questions: [
+            DnsQuestion {
+                name: "www.reddit.com",
+                qtype: A,
+            },
+        ],
+        answers: [],
+        authorities: [
+            NS {
+                domain: "com",
+                host: "e.gtld-servers.net",
+                ttl: 172800,
+            },
+            NS {
+                domain: "com",
+                host: "b.gtld-servers.net",
+                ttl: 172800,
+            },
+            NS {
+                domain: "com",
+                host: "j.gtld-servers.net",
+                ttl: 172800,
+            },
+            NS {
+                domain: "com",
+                host: "m.gtld-servers.net",
+                ttl: 172800,
+            },
+            NS {
+                domain: "com",
+                host: "i.gtld-servers.net",
+                ttl: 172800,
+            },
+            NS {
+                domain: "com",
+                host: "f.gtld-servers.net",
+                ttl: 172800,
+            },
+            NS {
+                domain: "com",
+                host: "a.gtld-servers.net",
+                ttl: 172800,
+            },
+            NS {
+                domain: "com",
+                host: "g.gtld-servers.net",
+                ttl: 172800,
+            },
+            NS {
+                domain: "com",
+                host: "h.gtld-servers.net",
+                ttl: 172800,
+            },
+            NS {
+                domain: "com",
+                host: "l.gtld-servers.net",
+                ttl: 172800,
+            },
+            NS {
+                domain: "com",
+                host: "k.gtld-servers.net",
+                ttl: 172800,
+            },
+            NS {
+                domain: "com",
+                host: "c.gtld-servers.net",
+                ttl: 172800,
+            },
+            NS {
+                domain: "com",
+                host: "d.gtld-servers.net",
+                ttl: 172800,
+            },
+        ],
+        resources: [
+            A {
+                domain: "e.gtld-servers.net",
+                addr: 192.12.94.30,
+                ttl: 172800,
+            },
+            AAAA {
+                domain: "e.gtld-servers.net",
+                addr: 2001:502:1ca1::30,
+                ttl: 172800,
+            },
+            A {
+                domain: "b.gtld-servers.net",
+                addr: 192.33.14.30,
+                ttl: 172800,
+            },
+            AAAA {
+                domain: "b.gtld-servers.net",
+                addr: 2001:503:231d::2:30,
+                ttl: 172800,
+            },
+            A {
+                domain: "j.gtld-servers.net",
+                addr: 192.48.79.30,
+                ttl: 172800,
+            },
+            AAAA {
+                domain: "j.gtld-servers.net",
+                addr: 2001:502:7094::30,
+                ttl: 172800,
+            },
+            A {
+                domain: "m.gtld-servers.net",
+                addr: 192.55.83.30,
+                ttl: 172800,
+            },
+            AAAA {
+                domain: "m.gtld-servers.net",
+                addr: 2001:501:b1f9::30,
+                ttl: 172800,
+            },
+            A {
+                domain: "i.gtld-servers.net",
+                addr: 192.43.172.30,
+                ttl: 172800,
+            },
+            AAAA {
+                domain: "i.gtld-servers.net",
+                addr: 2001:503:39c1::30,
+                ttl: 172800,
+            },
+            A {
+                domain: "f.gtld-servers.net",
+                addr: 192.35.51.30,
+                ttl: 172800,
+            },
+        ],
     },
-    questions: [
-        DnsQuestion {
-            name: "reddit.com",
-            qtype: A,
-        },
-    ],
-    answers: [],
-    authorities: [],
-    resources: [
-        UNKNOWN {
-            domain: "",
-            qtype: 41,
-            data_len: 0,
-            ttl: 0,
-        },
-    ],
-}
-Received query: DnsQuestion { name: "reddit.com", qtype: A }
+)
+attempting lookup of A www.reddit.com with ns 192.12.94.30
 Ok(
     DnsPacket {
         header: DnsHeader {
@@ -87,48 +206,113 @@ Ok(
             checking_disabled: false,
             authed_data: false,
             z: false,
-            recursion_available: true,
+            recursion_available: false,
             questions: 1,
-            answers: 4,
-            authoritative_entries: 0,
+            answers: 0,
+            authoritative_entries: 4,
+            resource_entries: 1,
+        },
+        questions: [
+            DnsQuestion {
+                name: "www.reddit.com",
+                qtype: A,
+            },
+        ],
+        answers: [],
+        authorities: [
+            NS {
+                domain: "reddit.com",
+                host: "ns-557.awsdns-05.net",
+                ttl: 172800,
+            },
+            NS {
+                domain: "reddit.com",
+                host: "ns-378.awsdns-47.com",
+                ttl: 172800,
+            },
+            NS {
+                domain: "reddit.com",
+                host: "ns-1029.awsdns-00.org",
+                ttl: 172800,
+            },
+            NS {
+                domain: "reddit.com",
+                host: "ns-1887.awsdns-43.co.uk",
+                ttl: 172800,
+            },
+        ],
+        resources: [
+            A {
+                domain: "ns-378.awsdns-47.com",
+                addr: 205.251.193.122,
+                ttl: 172800,
+            },
+        ],
+    },
+)
+attempting lookup of A www.reddit.com with ns 205.251.193.122
+Ok(
+    DnsPacket {
+        header: DnsHeader {
+            id: 6666,
+            recursion_desired: true,
+            truncated_message: false,
+            authoritative_answer: true,
+            opcode: 0,
+            response: true,
+            rescode: NOERROR,
+            checking_disabled: false,
+            authed_data: false,
+            z: false,
+            recursion_available: false,
+            questions: 1,
+            answers: 1,
+            authoritative_entries: 4,
             resource_entries: 0,
         },
         questions: [
             DnsQuestion {
-                name: "reddit.com",
+                name: "www.reddit.com",
                 qtype: A,
             },
         ],
         answers: [
-            A {
-                domain: "reddit.com",
-                addr: 151.101.129.140,
-                ttl: 184,
-            },
-            A {
-                domain: "reddit.com",
-                addr: 151.101.1.140,
-                ttl: 184,
-            },
-            A {
-                domain: "reddit.com",
-                addr: 151.101.193.140,
-                ttl: 184,
-            },
-            A {
-                domain: "reddit.com",
-                addr: 151.101.65.140,
-                ttl: 184,
+            CNAME {
+                domain: "www.reddit.com",
+                host: "reddit.map.fastly.net",
+                ttl: 10800,
             },
         ],
-        authorities: [],
+        authorities: [
+            NS {
+                domain: "reddit.com",
+                host: "ns-1029.awsdns-00.org",
+                ttl: 172800,
+            },
+            NS {
+                domain: "reddit.com",
+                host: "ns-1887.awsdns-43.co.uk",
+                ttl: 172800,
+            },
+            NS {
+                domain: "reddit.com",
+                host: "ns-378.awsdns-47.com",
+                ttl: 172800,
+            },
+            NS {
+                domain: "reddit.com",
+                host: "ns-557.awsdns-05.net",
+                ttl: 172800,
+            },
+        ],
         resources: [],
     },
 )
-Answer: A { domain: "reddit.com", addr: 151.101.129.140, ttl: 184 }
-Answer: A { domain: "reddit.com", addr: 151.101.1.140, ttl: 184 }
-Answer: A { domain: "reddit.com", addr: 151.101.193.140, ttl: 184 }
-Answer: A { domain: "reddit.com", addr: 151.101.65.140, ttl: 184 }
+Answer: CNAME { domain: "www.reddit.com", host: "reddit.map.fastly.net", ttl: 10800 }
+Authority: NS { domain: "reddit.com", host: "ns-1029.awsdns-00.org", ttl: 172800 }
+Authority: NS { domain: "reddit.com", host: "ns-1887.awsdns-43.co.uk", ttl: 172800 }
+Authority: NS { domain: "reddit.com", host: "ns-378.awsdns-47.com", ttl: 172800 }
+Authority: NS { domain: "reddit.com", host: "ns-557.awsdns-05.net", ttl: 172800 }
 ```
 </details>
 <br>
@@ -138,31 +322,33 @@ Answer: A { domain: "reddit.com", addr: 151.101.65.140, ttl: 184 }
   <summary>Check out the Output</summary>
 
 ```text
-; <<>> DiG 9.10.6 <<>> @127.0.0.1 -p 2053 reddit.com
+; <<>> DiG 9.10.6 <<>> @127.0.0.1 -p 2053 www.reddit.com
 ; (1 server found)
 ;; global options: +cmd
 ;; Got answer:
-;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 7666
-;; flags: qr rd ra; QUERY: 1, ANSWER: 4, AUTHORITY: 0, ADDITIONAL: 0
+;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 35824
+;; flags: qr rd ra; QUERY: 1, ANSWER: 1, AUTHORITY: 4, ADDITIONAL: 0
 
 ;; QUESTION SECTION:
-;reddit.com.                    IN      A
+;www.reddit.com.                        IN      A
 
 ;; ANSWER SECTION:
-reddit.com.             184     IN      A       151.101.129.140
-reddit.com.             184     IN      A       151.101.1.140
-reddit.com.             184     IN      A       151.101.193.140
-reddit.com.             184     IN      A       151.101.65.140
+www.reddit.com.         10800   IN      CNAME   reddit.map.fastly.net.
 
-;; Query time: 145 msec
+;; AUTHORITY SECTION:
+reddit.com.             172800  IN      NS      ns-1029.awsdns-00.org.
+reddit.com.             172800  IN      NS      ns-1887.awsdns-43.co.uk.
+reddit.com.             172800  IN      NS      ns-378.awsdns-47.com.
+reddit.com.             172800  IN      NS      ns-557.awsdns-05.net.
+
+;; Query time: 436 msec
 ;; SERVER: 127.0.0.1#2053(127.0.0.1)
-;; WHEN: Mon Aug 28 07:44:48 IST 2023
-;; MSG SIZE  rcvd: 132
-
+;; WHEN: Mon Aug 28 08:37:37 IST 2023
+;; MSG SIZE  rcvd: 261
 ```
 </details>
 
-When you run `cargo run`, it spins up a server which is listening for UDP packets on port 2053 on 127.0.0.1 (localhost). When you query for `reddit.com` using `dig` it catches the packet from and retransmits it to the Google's public DNS resolver. This DNS resolver will query the DNS infrastructure recursively and finally respond with answers. The server will catch this packet and respond it to the source (which was `dig` tool itself).
+When you run `cargo run`, it spins up a server which is listening for UDP packets on port 2053 on 127.0.0.1 (localhost). When you query for `www.reddit.com` using `dig` it catches the packet from and retransmits it to the one of the 13 logical root nameserver. It gets the response for the TLD nameservers handling the `.com` domain. It again queries one of the TLD nameservers and in response gets the IP addresses of authoritative nameservers which are handling the `reddit.com` zone. It further queries one of these nameservers and finally gets a response with `answers` section filled with the IP address of `www.reddit.com` domain. Finally, it returns this result to `dig` by encoding this result in a DNS packet. `dig` parses this packet and shows the result in the console.
 
 
 ## Developer Notes
@@ -197,6 +383,8 @@ In summary, creating a UDP socket provides your application with a structured wa
 2. **Building a stub resolver**: Create a stub resolver which quries a domain from Google's public DNS resolver (`8.8.8.8`). ✅
 3. **Adding various Record Types**: Added various record types. ✅
 4. **DNS server Implementation**: Created a DNS server for listening to `dig` and querying `8.8.8.8` and responding back to `dig` with response DNS packet. ✅
-5. **Implementing Recursive Resolvers**: 
+5. **Implementing Recursive Resolvers**: Created a recursive resolver which queries the DNS infrastructure recursively to get the IP address of a domain. ✅
+
+
 
 
