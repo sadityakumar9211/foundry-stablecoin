@@ -9,9 +9,9 @@
 git clone https://github.com/sadityakumar9211/rusty-dns
 ```
 
-2. Switch to the `recursive-resolver` branch
+2. Switch to the `main` branch
 ```zsh
-git checkout recursive-resolver
+git checkout main
 ```
 
 3. Install dependencies
