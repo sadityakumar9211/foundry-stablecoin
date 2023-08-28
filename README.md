@@ -27,8 +27,8 @@ cargo build && cargo run
 5. Provide the domain you want to query IP address for: 
 ```bash
 saditya rusty-dns % cargo build && cargo run
-    Finished dev [unoptimized + debuginfo] target(s) in 0.14s
-    Finished dev [unoptimized + debuginfo] target(s) in 0.10s
+    Finished dev [unoptimized + debuginfo] target(s) in 0.13s
+    Finished dev [unoptimized + debuginfo] target(s) in 0.08s
      Running `target/debug/dnsfun`
 Enter a domain name(example.com): 
 www.reddit.com
@@ -60,7 +60,7 @@ DnsPacket {
     },
     questions: [
         DnsQuestion {
-            name: "reddit.com",
+            name: "www.reddit.com",
             qtype: A,
         },
     ],
@@ -68,6 +68,7 @@ DnsPacket {
     authorities: [],
     resources: [],
 }
+
 
 
 
@@ -86,36 +87,41 @@ DnsPacket {
         z: false,
         recursion_available: true,
         questions: 1,
-        answers: 4,
+        answers: 5,
         authoritative_entries: 0,
         resource_entries: 0,
     },
     questions: [
         DnsQuestion {
-            name: "reddit.com",
+            name: "www.reddit.com",
             qtype: A,
         },
     ],
     answers: [
+        CNAME {
+            domain: "www.reddit.com",
+            host: "reddit.map.fastly.net",
+            ttl: 9834,
+        },
         A {
-            domain: "reddit.com",
+            domain: "reddit.map.fastly.net",
             addr: 151.101.1.140,
-            ttl: 142,
+            ttl: 25,
         },
         A {
-            domain: "reddit.com",
-            addr: 151.101.129.140,
-            ttl: 142,
-        },
-        A {
-            domain: "reddit.com",
-            addr: 151.101.193.140,
-            ttl: 142,
-        },
-        A {
-            domain: "reddit.com",
+            domain: "reddit.map.fastly.net",
             addr: 151.101.65.140,
-            ttl: 142,
+            ttl: 25,
+        },
+        A {
+            domain: "reddit.map.fastly.net",
+            addr: 151.101.129.140,
+            ttl: 25,
+        },
+        A {
+            domain: "reddit.map.fastly.net",
+            addr: 151.101.193.140,
+            ttl: 25,
         },
     ],
     authorities: [],
@@ -135,6 +141,7 @@ When you run `cargo run`, the code creates a DNS packet consisting of various se
 ## Points to Ponder
 Q. Why we need to create UDP socket to send a UDP packet when it is connectionless?
 
+<<<<<<< Updated upstream
 
 While UDP is a connectionless protocol, creating a UDP socket is essential to facilitate the sending and receiving of UDP packets in a structured and controlled manner. Here's why you need to create a UDP socket even though UDP is connectionless:
 
@@ -156,10 +163,18 @@ In summary, creating a UDP socket provides your application with a structured wa
 
 
 
+=======
+>>>>>>> Stashed changes
 ## Phases
 1. **The DNS Protocol** - Write a DNS packet parser and learn about the intricacies of domain name encoding using labels and about other fields of a DNS packet. ✅
 
 2. **Building a stub resolver**: Create a stub resolver which quries a domain from Google's public DNS resolver (`8.8.8.8`). ✅
+<<<<<<< Updated upstream
 3. **Adding various Record Types**: Active Development
 4. **Final DNS server Implementation**
 5. **Implementing Recursive Resolvers**
+=======
+3. **Adding various Record Types**: Added various record types including A, AAAA, CNAME, NS, and MX. ✅
+4. **Final DNS server Implementation** 
+5. **Implementing Recursive Resolvers**
+>>>>>>> Stashed changes
