@@ -1,7 +1,6 @@
 # Rusty-DNS
-> This project completed.
 
-> Final Functionality -> Created a recursive resolver which queries public DNS infrastructure recursively (from root-nameserver to authoratative-nameserver for that domain) and returns the result. 
+A recursive resolver which queries public DNS infrastructure recursively (from root-nameserver to the authoratative-nameserver for that particular domain) and responds with DNS response packet.
 
 ## Getting Started
 1. Clone this repository
@@ -30,12 +29,11 @@ This will spin up a DNS server (recursive resolver) on 127.0.0.1:2053 which can 
 dig @127.0.0.1 -p 2053 <domain_name>
 ```
 
-6. Response
-You will see responses on both the terminals: 
-- In the server terminal: 
+6. Response  
+You will see responses on both the terminals similar to this: 
 
 <details>
-  <summary>Check out the Output</summary>
+  <summary>Toggle to see output of `server` terminal</summary>
 
 ```text
 Received query: DnsQuestion { name: "www.reddit.com", qtype: A }
@@ -317,9 +315,8 @@ Authority: NS { domain: "reddit.com", host: "ns-557.awsdns-05.net", ttl: 172800 
 </details>
 <br>
 
-- In the dig terminal:
 <details>
-  <summary>Check out the Output</summary>
+  <summary>Toggle to see output of `dig` terminal</summary>
 
 ```text
 ; <<>> DiG 9.10.6 <<>> @127.0.0.1 -p 2053 www.reddit.com
@@ -348,13 +345,14 @@ reddit.com.             172800  IN      NS      ns-557.awsdns-05.net.
 ```
 </details>
 
-When you run `cargo run`, it spins up a server which is listening for UDP packets on port 2053 on 127.0.0.1 (localhost). When you query for `www.reddit.com` using `dig` it catches the packet from and retransmits it to the one of the 13 logical root nameserver. It gets the response for the TLD nameservers handling the `.com` domain. It again queries one of the TLD nameservers and in response gets the IP addresses of authoritative nameservers which are handling the `reddit.com` zone. It further queries one of these nameservers and finally gets a response with `answers` section filled with the IP address of `www.reddit.com` domain. Finally, it returns this result to `dig` by encoding this result in a DNS packet. `dig` parses this packet and shows the result in the console.
+When you run `cargo run`, it spins up a server which is listening for UDP packets on port 2053 on 127.0.0.1 (localhost). When you query for `www.reddit.com` using `dig`, server catches the packet which dig transmitted and retransmits it to the one of the 13 logical root nameserver. It gets the response for the TLD nameservers handling the `.com` domain. It again queries one of the TLD nameservers and in response gets the IP addresses of authoritative nameservers which are handling the `reddit.com` zone. It further queries one of these nameservers and finally gets a response with `answers` section filled with the IP address of `www.reddit.com` domain. Finally, it returns this result to `dig` by encoding this result in a DNS packet. `dig` parses this packet and shows the result in the console.
 
 
-## Developer Notes
+<!--## Developer Notes
 - This will consist of 5 phases. Currently Developing under Phase 3.
 - With this project, I will be writing blogs on each phase of this project.
 - The blogs will be available at my [blog website](https://saditya9211.hashnode.dev/series/rusty-dns).
+-->
 
 ## Points to Ponder
 Q. Why we need to create UDP socket to send a UDP packet when it is connectionless?
