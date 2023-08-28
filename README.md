@@ -1,5 +1,5 @@
 # Rusty-DNS
-> This project is under completed
+> This project completed.
 
 > Final Functionality -> Created a recursive resolver which queries public DNS infrastructure recursively (from root-nameserver to authoratative-nameserver for that domain) and returns the result. 
 
