@@ -163,18 +163,11 @@ In summary, creating a UDP socket provides your application with a structured wa
 
 
 
-=======
->>>>>>> Stashed changes
 ## Phases
 1. **The DNS Protocol** - Write a DNS packet parser and learn about the intricacies of domain name encoding using labels and about other fields of a DNS packet. ✅
-
 2. **Building a stub resolver**: Create a stub resolver which quries a domain from Google's public DNS resolver (`8.8.8.8`). ✅
-<<<<<<< Updated upstream
-3. **Adding various Record Types**: Active Development
-4. **Final DNS server Implementation**
+3. **Adding various Record Types**: Added various record types. ✅
+4. **Final DNS server Implementation**: Active Development.
 5. **Implementing Recursive Resolvers**
-=======
-3. **Adding various Record Types**: Added various record types including A, AAAA, CNAME, NS, and MX. ✅
-4. **Final DNS server Implementation** 
-5. **Implementing Recursive Resolvers**
->>>>>>> Stashed changes
+
+
