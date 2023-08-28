@@ -385,6 +385,50 @@ In summary, creating a UDP socket provides your application with a structured wa
 4. **DNS server Implementation**: Created a DNS server for listening to `dig` and querying `8.8.8.8` and responding back to `dig` with response DNS packet. ✅
 5. **Implementing Recursive Resolvers**: Created a recursive resolver which queries the DNS infrastructure recursively to get the IP address of a domain. ✅
 
+##  Additional Resource: 
+
+The 13 Logical Root Nameservers:   
+```bash
+.			3600000	IN	NS	a.root-servers.net.  
+.			3600000	IN	NS	b.root-servers.net.  
+.			3600000	IN	NS	c.root-servers.net.  
+.			3600000	IN	NS	d.root-servers.net.  
+.			3600000	IN	NS	e.root-servers.net.  
+.			3600000	IN	NS	f.root-servers.net.  
+.			3600000	IN	NS	g.root-servers.net.  
+.			3600000	IN	NS	h.root-servers.net.  
+.			3600000	IN	NS	i.root-servers.net.  
+.			3600000	IN	NS	j.root-servers.net.  
+.			3600000	IN	NS	k.root-servers.net.  
+.			3600000	IN	NS	l.root-servers.net.  
+.			3600000	IN	NS	m.root-servers.net.  
+a.root-servers.net.	3600000	IN	A	198.41.0.4  
+a.root-servers.net.	3600000	IN	AAAA	2001:503:ba3e:0:0:0:2:30  
+b.root-servers.net.	3600000	IN	A	199.9.14.201  
+b.root-servers.net.	3600000	IN	AAAA	2001:500:200:0:0:0:0:b  
+c.root-servers.net.	3600000	IN	A	192.33.4.12  
+c.root-servers.net.	3600000	IN	AAAA	2001:500:2:0:0:0:0:c  
+d.root-servers.net.	3600000	IN	A	199.7.91.13  
+d.root-servers.net.	3600000	IN	AAAA	2001:500:2d:0:0:0:0:d  
+e.root-servers.net.	3600000	IN	A	192.203.230.10  
+e.root-servers.net.	3600000	IN	AAAA	2001:500:a8:0:0:0:0:e  
+f.root-servers.net.	3600000	IN	A	192.5.5.241  
+f.root-servers.net.	3600000	IN	AAAA	2001:500:2f:0:0:0:0:f  
+g.root-servers.net.	3600000	IN	A	192.112.36.4  
+g.root-servers.net.	3600000	IN	AAAA	2001:500:12:0:0:0:0:d0d  
+h.root-servers.net.	3600000	IN	A	198.97.190.53  
+h.root-servers.net.	3600000	IN	AAAA	2001:500:1:0:0:0:0:53  
+i.root-servers.net.	3600000	IN	A	192.36.148.17  
+i.root-servers.net.	3600000	IN	AAAA	2001:7fe:0:0:0:0:0:53  
+j.root-servers.net.	3600000	IN	A	192.58.128.30  
+j.root-servers.net.	3600000	IN	AAAA	2001:503:c27:0:0:0:2:30  
+k.root-servers.net.	3600000	IN	A	193.0.14.129  
+k.root-servers.net.	3600000	IN	AAAA	2001:7fd:0:0:0:0:0:1  
+l.root-servers.net.	3600000	IN	A	199.7.83.42  
+l.root-servers.net.	3600000	IN	AAAA	2001:500:9f:0:0:0:0:42  
+m.root-servers.net.	3600000	IN	A	202.12.27.33  
+m.root-servers.net.	3600000	IN	AAAA	2001:dc3:0:0:0:0:0:35  
+```  
 
 
 
