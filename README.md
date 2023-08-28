@@ -1,7 +1,7 @@
 # Rusty-DNS
 > This project is under completed
 
-> Most recent functionality -> Created a recursive resolver which queries public DNS infrastructure recursively (from root-nameserver to authoratative-nameserver for that domain) and returns the result. 
+> Final Functionality -> Created a recursive resolver which queries public DNS infrastructure recursively (from root-nameserver to authoratative-nameserver for that domain) and returns the result. 
 
 ## Getting Started
 1. Clone this repository
