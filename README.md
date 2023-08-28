@@ -133,6 +133,7 @@ When you run `cargo run`, the code creates a DNS packet consisting of various se
 - The blogs will be available at my [blog website](https://saditya9211.hashnode.dev/series/rusty-dns).
 
 ## Points to Ponder
+Q. Why we need to create UDP socket to send a UDP packet when it is connectionless?
 While UDP is a connectionless protocol, creating a UDP socket is essential to facilitate the sending and receiving of UDP packets in a structured and controlled manner. Here's why you need to create a UDP socket even though UDP is connectionless:
 
 1. **Abstraction**: Sockets provide an abstraction over the underlying network communication protocols. They allow your application to interact with the network in a consistent way, regardless of whether the protocol is connection-oriented (like TCP) or connectionless (like UDP).
