@@ -11,7 +11,7 @@ git clone https://github.com/sadityakumar9211/rusty-dns
 
 2. Switch to the `more-record-types` branch
 ```zsh
-git checkout more-record-types
+git checkout our-own-server
 ```
 
 3. Install dependencies
@@ -23,26 +23,24 @@ cargo update
 ```bash
 cargo build && cargo run
 ```
+This will spin up a DNS server on 127.0.0.1:2053 which can be queried using `dig` tool to get the ip address response.
 
-5. Provide the domain you want to query IP address for: 
+5. Split the terminal and query:
 ```bash
-saditya rusty-dns % cargo build && cargo run
-    Finished dev [unoptimized + debuginfo] target(s) in 0.13s
-    Finished dev [unoptimized + debuginfo] target(s) in 0.08s
-     Running `target/debug/dnsfun`
-Enter a domain name(example.com): 
-www.reddit.com
+dig @127.0.0.1 -p 2053 <domain_name>
 ```
 
-6. You will get a response similar to this:
+6. Response
+You will see responses on both the terminals: 
+- In the server terminal: 
+
 <details>
   <summary>Check out the Output</summary>
 
 ```text
-########## DNS Query Packet ##########
 DnsPacket {
     header: DnsHeader {
-        id: 6666,
+        id: 7666,
         recursion_desired: true,
         truncated_message: false,
         authoritative_answer: false,
@@ -50,87 +48,121 @@ DnsPacket {
         response: false,
         rescode: NOERROR,
         checking_disabled: false,
-        authed_data: false,
+        authed_data: true,
         z: false,
         recursion_available: false,
         questions: 1,
         answers: 0,
         authoritative_entries: 0,
-        resource_entries: 0,
+        resource_entries: 1,
     },
     questions: [
         DnsQuestion {
-            name: "www.reddit.com",
+            name: "reddit.com",
             qtype: A,
         },
     ],
     answers: [],
     authorities: [],
-    resources: [],
+    resources: [
+        UNKNOWN {
+            domain: "",
+            qtype: 41,
+            data_len: 0,
+            ttl: 0,
+        },
+    ],
 }
-
-
-
-
-########## DNS Response Packet ##########
-DnsPacket {
-    header: DnsHeader {
-        id: 6666,
-        recursion_desired: true,
-        truncated_message: false,
-        authoritative_answer: false,
-        opcode: 0,
-        response: true,
-        rescode: NOERROR,
-        checking_disabled: false,
-        authed_data: false,
-        z: false,
-        recursion_available: true,
-        questions: 1,
-        answers: 5,
-        authoritative_entries: 0,
-        resource_entries: 0,
+Received query: DnsQuestion { name: "reddit.com", qtype: A }
+Ok(
+    DnsPacket {
+        header: DnsHeader {
+            id: 6666,
+            recursion_desired: true,
+            truncated_message: false,
+            authoritative_answer: false,
+            opcode: 0,
+            response: true,
+            rescode: NOERROR,
+            checking_disabled: false,
+            authed_data: false,
+            z: false,
+            recursion_available: true,
+            questions: 1,
+            answers: 4,
+            authoritative_entries: 0,
+            resource_entries: 0,
+        },
+        questions: [
+            DnsQuestion {
+                name: "reddit.com",
+                qtype: A,
+            },
+        ],
+        answers: [
+            A {
+                domain: "reddit.com",
+                addr: 151.101.129.140,
+                ttl: 184,
+            },
+            A {
+                domain: "reddit.com",
+                addr: 151.101.1.140,
+                ttl: 184,
+            },
+            A {
+                domain: "reddit.com",
+                addr: 151.101.193.140,
+                ttl: 184,
+            },
+            A {
+                domain: "reddit.com",
+                addr: 151.101.65.140,
+                ttl: 184,
+            },
+        ],
+        authorities: [],
+        resources: [],
     },
-    questions: [
-        DnsQuestion {
-            name: "www.reddit.com",
-            qtype: A,
-        },
-    ],
-    answers: [
-        CNAME {
-            domain: "www.reddit.com",
-            host: "reddit.map.fastly.net",
-            ttl: 9834,
-        },
-        A {
-            domain: "reddit.map.fastly.net",
-            addr: 151.101.1.140,
-            ttl: 25,
-        },
-        A {
-            domain: "reddit.map.fastly.net",
-            addr: 151.101.65.140,
-            ttl: 25,
-        },
-        A {
-            domain: "reddit.map.fastly.net",
-            addr: 151.101.129.140,
-            ttl: 25,
-        },
-        A {
-            domain: "reddit.map.fastly.net",
-            addr: 151.101.193.140,
-            ttl: 25,
-        },
-    ],
-    authorities: [],
-    resources: [],
-}
+)
+Answer: A { domain: "reddit.com", addr: 151.101.129.140, ttl: 184 }
+Answer: A { domain: "reddit.com", addr: 151.101.1.140, ttl: 184 }
+Answer: A { domain: "reddit.com", addr: 151.101.193.140, ttl: 184 }
+Answer: A { domain: "reddit.com", addr: 151.101.65.140, ttl: 184 }
+```
+</details>
+<br>
+
+- In the dig terminal:
+<details>
+  <summary>Check out the Output</summary>
+
+```text
+; <<>> DiG 9.10.6 <<>> @127.0.0.1 -p 2053 reddit.com
+; (1 server found)
+;; global options: +cmd
+;; Got answer:
+;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 7666
+;; flags: qr rd ra; QUERY: 1, ANSWER: 4, AUTHORITY: 0, ADDITIONAL: 0
+
+;; QUESTION SECTION:
+;reddit.com.                    IN      A
+
+;; ANSWER SECTION:
+reddit.com.             184     IN      A       151.101.129.140
+reddit.com.             184     IN      A       151.101.1.140
+reddit.com.             184     IN      A       151.101.193.140
+reddit.com.             184     IN      A       151.101.65.140
+
+;; Query time: 145 msec
+;; SERVER: 127.0.0.1#2053(127.0.0.1)
+;; WHEN: Mon Aug 28 07:44:48 IST 2023
+;; MSG SIZE  rcvd: 132
+
 ```
 </details>
 
-When you run `cargo run`, the code creates a DNS packet consisting of various sections viz. header, questions, answers, authorities, resources and it sends a UDP packet to one of the Google's public DNS resolver(server). The resolver queries for the IP address from the underlying DNS infrastructure and responds with the response packet containing the IP address of queries domain in the `answers` field of DNS response packet. 
+When you run `cargo run`, it spins up a server which is listening for UDP packets on port 2053 on 127.0.0.1 (localhost). When you query for `reddit.com` using `dig` it catches the packet from and retransmits it to the Google's public DNS resolver. This DNS resolver will query the DNS infrastructure recursively and finally respond with answers. The server will catch this packet and respond it to the source (which was `dig` tool itself).
 
 
 ## Developer Notes
@@ -141,7 +173,6 @@ When you run `cargo run`, the code creates a DNS packet consisting of various se
 ## Points to Ponder
 Q. Why we need to create UDP socket to send a UDP packet when it is connectionless?
 
-<<<<<<< Updated upstream
 
 While UDP is a connectionless protocol, creating a UDP socket is essential to facilitate the sending and receiving of UDP packets in a structured and controlled manner. Here's why you need to create a UDP socket even though UDP is connectionless:
 
@@ -161,13 +192,11 @@ While UDP is a connectionless protocol, creating a UDP socket is essential to fa
 
 In summary, creating a UDP socket provides your application with a structured way to interact with the UDP protocol and the underlying network infrastructure. While UDP itself is connectionless and lacks features like guaranteed delivery, sockets offer the necessary control and abstraction for sending and receiving UDP packets within your application.
 
-
-
 ## Phases
 1. **The DNS Protocol** - Write a DNS packet parser and learn about the intricacies of domain name encoding using labels and about other fields of a DNS packet. ✅
 2. **Building a stub resolver**: Create a stub resolver which quries a domain from Google's public DNS resolver (`8.8.8.8`). ✅
 3. **Adding various Record Types**: Added various record types. ✅
-4. **Final DNS server Implementation**: Active Development.
-5. **Implementing Recursive Resolvers**
+4. **DNS server Implementation**: Created a DNS server for listening to `dig` and querying `8.8.8.8` and responding back to `dig` with response DNS packet. ✅
+5. **Implementing Recursive Resolvers**: 
 
 
