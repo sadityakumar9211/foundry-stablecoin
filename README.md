@@ -1,7 +1,7 @@
 # Rusty-DNS
 > This project is under development.
 
-> Most recent functionality -> DNS query/response packets can be parsed from disk for reading.
+> Most recent functionality -> Created a stub-resolver (checkout the `stub-resolver` branch): [here](https://github.com/sadityakumar9211/rusty-dns/tree/stub-resolver)
 
 ## Getting Started
 1. Clone this repository
